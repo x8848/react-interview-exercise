@@ -9,7 +9,7 @@
 ### Image details page (react hooks)
 1. Request detailed information about image (https://picsum.photos/id/{id}}/info)
 2. Represent detailed information in the markup
-3. Navigate from "Related Images" to another image details page (or suggest the approach)
+3. Navigate from "Related Images" to another image details page
 
 ### Image detailed view 
 1. View the original image un the popup with abilities to zoom in/out and close the popup
