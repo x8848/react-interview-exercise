@@ -1,15 +1,25 @@
-import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React from "react"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
+import Homepage from "./pages/homepage"
+import ImagePage from "./pages/image"
+import { configureStore } from '@reduxjs/toolkit'
+import { Provider } from 'react-redux'
+import imagesReducer from './pages/imagesSlice'
 
-import Homepage from "./pages/homepage";
+const store = configureStore({
+  reducer: imagesReducer
+})
 
 const App = () => (
-  <Router>
-    <Switch>
-      <Route path="/" exact component={Homepage} />
-      <Route component={() => <h1 style={{ textAlign: 'center' }}>404</h1>} />
-    </Switch>
-  </Router>
-);
+  <Provider store={store}>
+    <Router>
+      <Switch>
+        <Route path="/" exact component={Homepage} />
+        <Route path="/image/:id" exact component={ImagePage} />
+        <Route component={() => <h1 style={{ textAlign: 'center' }}>404</h1>} />
+      </Switch>
+    </Router>
+  </Provider>
+)
 
-export default App;
+export default App

@@ -1,117 +1,47 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  Grid,
-  Card,
-  CardHeader,
-  CardMedia,
-  CardActions,
-  Button
-} from "@material-ui/core";
+import { Grid, Card, CardHeader, CardMedia, CardActions, Button } from "@material-ui/core";
 import { MdFavorite } from "react-icons/md";
-
+import InfiniteScroll from "react-infinite-scroll-component";
+import { getImages, likeImage } from './imagesSlice'
+import { connect } from 'react-redux'
 import Layout from "../components/layout";
 
-class Homepage extends React.Component {
-  state = {
-    images: []
-  };
+const mapState = state => ({ images: state.images, hasMore: state.hasMore })
+const mapDispatch = dispatch => ({ getImages: () => dispatch(getImages()), likeImage: (id) => dispatch(likeImage(id)) })
 
-  likeImage = () => {};
+class Homepage extends React.Component {
+  componentDidMount() {
+    if (this.props.images.length === 0) this.props.getImages()
+  }
 
   render() {
+    const { getImages, likeImage, images, hasMore } = this.props
     return (
       <Layout>
-        <Grid container spacing={2}>
-          <Grid item xs={2}>
-            <Card>
-              <CardHeader title={<Link to="/">Author of image</Link>} />
-              <Link to="/">
-                <CardMedia
-                  style={{ paddingTop: '56.25%' }}
-                  image="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  title="Author"
-                />
-              </Link>
-              <CardActions disableSpacing>
-                <Button>
-                  <MdFavorite /> 0
-                </Button>
-              </CardActions>
-            </Card>
+        <InfiniteScroll dataLength={images.length} next={getImages} hasMore={hasMore} loader={<h4>Loading...</h4>}>
+          <Grid container spacing={2}>
+            {images.map(image => (
+              <Grid item xs={4}>
+                <Card>
+                  <CardHeader title={<Link to={`/image/${image.id}`}>{image.author}</Link>} />
+                  <Link to={`/image/${image.id}`}>
+                    <CardMedia style={{ padding: '56.25%' }} image={image.small_url} title={image.author}
+                    />
+                  </Link>
+                  <CardActions disableSpacing>
+                    <Button onClick={() => likeImage(image.id)}>
+                      <MdFavorite />{0 + image.liked}
+                    </Button>
+                  </CardActions>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
-          <Grid item xs={2}>
-            <Card>
-              <CardHeader title={<Link to="/">Author of image</Link>} />
-              <Link to="/">
-                <CardMedia
-                  style={{ paddingTop: '56.25%' }}
-                  image="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  title="Author"
-                />
-              </Link>
-              <CardActions disableSpacing>
-                <Button>
-                  <MdFavorite /> 0
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={2}>
-            <Card>
-              <CardHeader title={<Link to="/">Author of image</Link>} />
-              <Link to="/">
-                <CardMedia
-                  style={{ paddingTop: '56.25%' }}
-                  image="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  title="Author"
-                />
-              </Link>
-              <CardActions disableSpacing>
-                <Button>
-                  <MdFavorite /> 0
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={2}>
-            <Card>
-              <CardHeader title={<Link to="/">Author of image</Link>} />
-              <Link to="/">
-                <CardMedia
-                  style={{ paddingTop: '56.25%' }}
-                  image="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  title="Author"
-                />
-              </Link>
-              <CardActions disableSpacing>
-                <Button>
-                  <MdFavorite /> 0
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={2}>
-            <Card>
-              <CardHeader title={<Link to="/">Author of image</Link>} />
-              <Link to="/">
-                <CardMedia
-                  style={{ paddingTop: '56.25%' }}
-                  image="https://images.pexels.com/photos/45201/kitty-cat-kitten-pet-45201.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                  title="Author"
-                />
-              </Link>
-              <CardActions disableSpacing>
-                <Button>
-                  <MdFavorite /> 0
-                </Button>
-              </CardActions>
-            </Card>
-          </Grid>
-        </Grid>
+        </InfiniteScroll>
       </Layout>
     );
   }
 }
 
-export default Homepage;
+export default connect(mapState, mapDispatch)(Homepage)
