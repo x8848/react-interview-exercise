@@ -1,0 +1,27 @@
+body {
+    font-family: Khand;
+}
+
+header svg {
+    color: white
+}
+
+.dark {
+    background-color:black;
+    color: white;
+    
+    a, svg, span {
+        color: white
+    }
+    .MuiPaper-root {
+        background-color: #303030;
+    }
+    header .MuiButton-label {
+        color: black
+    }
+}
+
+.light {
+    background-color: white;
+    color: black
+}

@@ -22,7 +22,7 @@ class Homepage extends React.Component {
         <InfiniteScroll dataLength={images.length} next={getImages} hasMore={hasMore} loader={<h4>Loading...</h4>}>
           <Grid container spacing={2}>
             {images.map(image => (
-              <Grid item xs={4}>
+              <Grid item xs={4} key={image.id}>
                 <Card>
                   <CardHeader title={<Link to={`/image/${image.id}`}>{image.author}</Link>} />
                   <Link to={`/image/${image.id}`}>

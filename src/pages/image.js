@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Grid, IconButton, Typography } from "@material-ui/core";
-import { MdFileDownload, MdLinkedCamera } from "react-icons/md"
+import { MdFileDownload, MdFavorite } from "react-icons/md"
 import ModalImage from "react-modal-image"
 import Layout from "../components/layout"
 import * as API from '../API'
-import { MdFavorite } from "react-icons/md"
 import { likeImage, getImages } from './imagesSlice'
 import { connect } from 'react-redux'
 

@@ -21,11 +21,7 @@ const imagesSlice = createSlice({
             const id = action.payload
             let images = state.images.map(image =>
                 image.id === id ? { ...image, liked: !image.liked } : image)
-            return {
-                images: images,
-                hasMore: state.hasMore,
-                page: state.page
-            }
+            return { ...state, images: images }
 
         }
     }
@@ -39,6 +35,6 @@ export const getImages = (limit) => {
     }
 }
 
-export const { getImagesSuccess, likeImage, addImage } = imagesSlice.actions
+export const { getImagesSuccess, likeImage } = imagesSlice.actions
 
 export default imagesSlice.reducer
