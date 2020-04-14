@@ -10,6 +10,8 @@ const store = configureStore({
   reducer: imagesReducer
 })
 
+window.matchMedia("(prefers-color-scheme: dark)").matches && document.body.classList.toggle('dark')
+
 const App = () => (
   <Provider store={store}>
     <Router>
