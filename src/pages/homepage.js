@@ -7,9 +7,6 @@ import { getImages, likeImage } from './imagesSlice'
 import { connect } from 'react-redux'
 import Layout from "../components/layout";
 
-const mapState = state => ({ images: state.images, hasMore: state.hasMore })
-const mapDispatch = dispatch => ({ getImages: () => dispatch(getImages()), likeImage: (id) => dispatch(likeImage(id)) })
-
 class Homepage extends React.Component {
   componentDidMount() {
     if (this.props.images.length === 0) this.props.getImages()
@@ -44,4 +41,6 @@ class Homepage extends React.Component {
   }
 }
 
-export default connect(mapState, mapDispatch)(Homepage)
+const mapState = state => ({ images: state.images, hasMore: state.hasMore })
+
+export default connect(mapState, { getImages, likeImage })(Homepage)

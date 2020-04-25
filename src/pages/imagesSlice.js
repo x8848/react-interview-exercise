@@ -6,7 +6,8 @@ const imagesSlice = createSlice({
     initialState: {
         images: [],
         hasMore: true,
-        page: 1
+        page: 1,
+        imageInfo: null
     },
     reducers: {
         getImagesSuccess: (state, action) => {
@@ -14,7 +15,8 @@ const imagesSlice = createSlice({
             return {
                 images: [...state.images, ...images],
                 hasMore: images.length > 0,
-                page: 1 + state.page
+                page: 1 + state.page,
+                pageInfo: null
             }
         },
         likeImage: (state, action) => {
@@ -23,18 +25,23 @@ const imagesSlice = createSlice({
                 image.id === id ? { ...image, liked: !image.liked } : image)
             return { ...state, images: images }
 
-        }
+        },
+        getImageInfoSuccess: (state, action) => ({ ...state, imageInfo: action.payload })
     }
 })
 
-export const getImages = (limit) => {
-    return (dispatch, getState) => {
-        API.getImages(getState().page, limit)
-            .then(images => dispatch(getImagesSuccess(images)))
-            .catch(error => console.error(error))
-    }
+export const getImages = (limit) => (dispatch, getState) => {
+    API.getImages(getState().page, limit)
+        .then(images => dispatch(getImagesSuccess(images)))
+        .catch(error => console.error(error))
 }
 
-export const { getImagesSuccess, likeImage } = imagesSlice.actions
+export const getImageInfo = id => dispatch => {
+    API.getImageInfo(id)
+        .then(info => dispatch(getImageInfoSuccess(info)))
+        .catch(error => console.error(error))
+}
+
+export const { getImagesSuccess, likeImage, getImageInfoSuccess } = imagesSlice.actions
 
 export default imagesSlice.reducer

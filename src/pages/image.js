@@ -5,23 +5,14 @@ import { MdFileDownload, MdFavorite } from "react-icons/md"
 import ModalImage from "react-modal-image"
 import Layout from "../components/layout"
 import * as API from '../API'
-import { likeImage, getImages } from './imagesSlice'
+import { getImageInfo, likeImage, getImages } from './imagesSlice'
 import { connect } from 'react-redux'
 
-const mapState = state => ({ images: state.images })
-const mapDispatch = dispatch => ({ getImages: (limit) => dispatch(getImages(limit)), likeImage: (id) => dispatch(likeImage(id)) })
-
-const ImagePage = ({ images, getImages, likeImage }) => {
+const ImagePage = ({ info, images, getImages, likeImage, getImageInfo }) => {
   const { id } = useParams()
-  const [info, setInfo] = useState()
 
   useEffect(() => {
-    API.getImageInfo(id)
-      .then(info => {
-        setInfo(info)
-      })
-      .catch(error => console.error(error))
-
+    getImageInfo(id)
     if (images.length === 0) {
       getImages(5)
     }
@@ -75,4 +66,6 @@ const ImagePage = ({ images, getImages, likeImage }) => {
   )
 }
 
-export default connect(mapState, mapDispatch)(ImagePage)
+const mapState = state => ({ info: state.imageInfo, images: state.images })
+
+export default connect(mapState, { getImageInfo, getImages, likeImage })(ImagePage)
