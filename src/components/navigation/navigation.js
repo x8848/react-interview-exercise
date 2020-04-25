@@ -18,11 +18,7 @@ const Navigation = () => {
         <Toolbar>
           <Grid container spacing={2}>
             <Grid item>
-              <Button
-                component={Link}
-                to="/"
-                variant="contained"
-              >
+              <Button component={Link} to="/" variant="contained">
                 Home
               </Button>
               <IconButton onClick={() => toggleDark()}>
